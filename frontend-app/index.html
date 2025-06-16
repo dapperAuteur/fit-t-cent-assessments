@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaPipe Overhead Squat Assessment</title>
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+    <h1>Overhead Squat Form Assessment</h1>
+
+    <div id="auth-container">
+        <div id="logged-out-view">
+            <h2>Welcome!</h2>
+            <input type="email" id="emailInput" placeholder="Email" aria-label="Email Address">
+            <input type="password" id="passwordInput" placeholder="Password" aria-label="Password">
+            <button id="loginButton">Login</button>
+            <button id="signupButton">Sign Up</button>
+            <p id="authError" style="color: red;"></p>
+        </div>
+        <div id="logged-in-view" style="display: none;">
+            <p>Logged in as: <span id="userEmail"></span></p>
+            <button id="logoutButton">Logout</button>
+        </div>
+    </div>
+    <div id="guestModePrompt" aria-live="polite" style="display: none;">
+    </div>
+
+    <div id="controls">
+        <button id="startButton" class="start">Start Assessment</button>
+        <button id="stopButton" class="stop" disabled>Stop Assessment</button>
+        <button id="resetButton" class="reset" disabled>Reset</button>
+    </div>
+    <div id="assessmentActions" style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; width: 100%; max-width: 400px;">
+        <button id="saveAssessmentButton" style="display: none;">Save Assessment</button>
+        <button id="shareAssessmentButton" style="display: none;">Share with Trainer</button>
+    </div>
+
+    <div id="instructions" aria-live="polite">
+        <h2>Instructions:</h2>
+        <p>Click "Start Assessment" to begin. Stand facing the camera with your arms extended overhead. Perform an overhead squat while the system analyzes your form. Click "Stop Assessment" when finished.</p>
+    </div>
+
+    <div id="repCounter">Reps: 0</div> 
+    
+    <div id="video-container">
+        <video id="webcam" autoplay playsinline></video>
+        <canvas id="output_canvas"></canvas>
+    </div>
+
+    <div id="feedback" aria-live="polite">
+        Ready to begin.
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>
