@@ -151,7 +151,7 @@ What is missing:
 
 The overhead squat assessment is the current working feature. The next possible use is different: a paying client wants a tool for track and field athletes (sprinters, hurdlers and javelin throwers), starting with analysis of video that athletes and their coach record on a phone.
 
-That work is being vetted in the WitUS planning notes (plans/35, kept outside this repo) and is **not built**. Nothing in this repo analyzes recorded video or sprint, hurdle or throwing mechanics today.
+That work is going through the WitUS app-idea vetting process and is **not built**. The vetting analysis (WitUS plans/35, kept outside this repo) waits on owner decisions and has not been written yet. Nothing in this repo analyzes recorded video or sprint, hurdle or throwing mechanics today.
 
 ## Roadmap
 
