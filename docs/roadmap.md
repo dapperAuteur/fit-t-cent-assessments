@@ -1,33 +1,28 @@
 ---
 app: fit-t-cent-assessments
 name: Fit T. Cent Assessments
-stage: idea
-updated: 2026-10-29
+stage: building
+updated: 2026-11-01
 ---
 
 ## Live now
-- Prototype in this repo (no production URL confirmed): an overhead squat assessment in the browser
-- Real-time pose landmarks from the phone or laptop camera
-- Feedback on arms falling forward, excessive forward lean and knees caving in
-- Live rep counter with start, stop and reset
-- Guest mode without an account
+- Nothing in production. The old Vite and Firebase overhead squat prototype was retired from `main` on 2026-11-01; its code is kept at the git tag `legacy/vite-squat-prototype`
+- Slow-motion frame test page (`spike/`), used to prove that 240 fps iPhone clips reach the browser with every slow-section frame
 
 ## In progress
-- Nothing yet; the idea is waiting on its vetting analysis
+- Phase 0 onboarding: ignore private plans, retire the prototype, CLAUDE.md and the commit guard, WitUS registry entries
+- Release 1 (MVP): track hurdle clearance from a side-on slow-motion clip, Sign in with WitUS, saved results without video, stick-figure replay, export, landing and method pages
 
 ## Next
-- Vetting analysis with the ecosystem rubric (witus plans/35)
-- Owner decisions: goal, first trainer and first client
-- Stays browser based on phones and laptops (owner decision)
+- Release 2: overhead squat assessment (based on NASM's protocol), with the live camera
+- Release 3: coach links, per-result sharing and review
 
 ## Backlog
-- Every NASM assessment, not only the overhead squat
-- Accounts and assessment history
-- Sharing results with a trainer, with consent per share
-- Results sent to CentenarianOS as signed events (landmarks and scores, never video)
-- Typed, tested assessment rules and the current MediaPipe pose model
-- Installable app with offline support
+- Release 4: single-leg squat, push and pull assessments (based on NASM's protocol) and the hurdle step screen (published criteria)
+- Video sharing with a coach, offline install, a CentenarianOS event with landmarks and scores (never video)
+- A release for athletes under 18, only if the owner approves it (guardian consent and visibility first)
 
 ## Blocked on
-- Owner decisions and the vetting analysis (witus task 103)
-- Low priority: scheduled after other ecosystem work
+- Vercel project, Neon database and secrets (owner task 05)
+- Sign in with WitUS client secret on both projects (owner task 06)
+- Adult fixture clips of a hurdler at 240 fps (owner task 08)
