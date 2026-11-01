@@ -1,0 +1,16 @@
+{
+  "name": "pose-bench",
+  "private": true,
+  "type": "module",
+  "description": "Throwaway benchmark for docs/research/stack-swot.md. Not part of the app.",
+  "scripts": {
+    "serve": "node server.mjs . 8765",
+    "fetch-assets": "mkdir -p models && for m in lite full heavy; do curl -sSL -o models/pose_landmarker_$m.task https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_$m/float16/latest/pose_landmarker_$m.task; done && curl -sSL -o pose.jpg https://storage.googleapis.com/mediapipe-assets/pose.jpg",
+    "make-clip": "ffmpeg -y -loglevel error -loop 1 -framerate 240 -t 5 -i pose.jpg -vf \"scale=2400:1600,crop=1920:1080:'200+100*t':'200+40*sin(2*PI*t)',noise=alls=12:allf=t,format=yuv420p\" -c:v libx264 -preset veryfast -b:v 64M -maxrate 64M -bufsize 64M -r 240 -g 240 -movflags +faststart clip240.mp4"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "1.2.0",
+    "mp4box": "0.5.4",
+    "playwright-core": "1.64.1"
+  }
+}
