@@ -1,0 +1,1 @@
+{"delegates":["CPU","GPU"],"models":["lite","full","heavy"],"warm":10,"iters":50,"clip":"/clip240.mp4","pipelines":[["lite","CPU",null],["lite","GPU",null],["full","GPU",null],["heavy","GPU",null],["lite","CPU",[640,360]],["full","CPU",null]],"worker":[["lite","CPU"],["lite","GPU"],["full","GPU"]]}
