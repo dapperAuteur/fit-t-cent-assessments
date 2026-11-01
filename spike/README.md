@@ -23,16 +23,23 @@ The results stay in this browser's local storage until cleared. Nothing is uploa
 ## Deploy
 
 Vercel project with Root Directory `spike`, Framework Preset "Other", no build command, no output
-directory. `vercel.json` only sets cache and privacy headers. `.vercelignore` keeps `dev/` and this file out.
+directory. `vercel.json` only sets headers: long caching for the versioned `vendor/` and `models/` paths, and privacy headers including the CSP above. `.vercelignore` keeps `dev/` and this file out.
 
 ## Pinned files (self-hosted, no CDN at runtime)
 
 | File | Source | SHA-256 |
 | --- | --- | --- |
 | `vendor/mp4box@0.5.4/mp4box.all.min.js` | npm `mp4box@0.5.4` `dist/` (BSD-3-Clause), sourcemap line removed | `f981c3ac620cba6b...` |
-| `vendor/tasks-vision@1.2.0/vision_bundle.mjs` | npm `@mediapipe/tasks-vision@1.2.0` (Apache-2.0), sourcemap line removed | `fba1af224ac39e8e...` |
+| `vendor/tasks-vision@1.2.0/vision_bundle.mjs` | npm `@mediapipe/tasks-vision@1.2.0` (Apache-2.0), sourcemap line removed, telemetry disabled (below) | upstream `fba1af224ac39e8e...`, patched `28b40f19398aa4e1...` |
 | `vendor/tasks-vision@1.2.0/wasm/vision_wasm_module_internal.{js,wasm}` | same package; the module variant is the one a module worker loads | `60384c90...`, `2e326b9d...` |
 | `models/pose_landmarker_full.float16.4eaa5eb7.task` | `storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/latest/` as fetched for the pose bench on 2026-10-31 (differs from `float16/1/`) | `4eaa5eb7a98365...` |
+
+**Telemetry patch.** `tasks-vision` 1.2.0 creates a usage logger for every task that POSTs to
+`https://odml.pa.googleapis.com/v1/log` every 60 seconds and on close, with no option to turn it off (found in the
+first local test run). The vendored copy makes that logger's `flush` a no-op and stops it collecting entries
+(class `Ch`, marked by a comment on line 1). `vercel.json` also sends `Content-Security-Policy: connect-src 'self'
+blob: data:`, so the browser blocks any request to another origin even if a code path is missed. The local server
+(`dev/serve.mjs`) applies the same headers, and `dev/run-local.mjs` counts requests that leave localhost.
 
 Only the SIMD module build is shipped. Every browser the test targets (Safari 16.4 and later, current Chrome)
 has WebAssembly SIMD, and MediaPipe has no non-SIMD module build.
