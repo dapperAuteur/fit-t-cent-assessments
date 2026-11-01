@@ -53,6 +53,16 @@ Removed from `main` in that change: `frontend-app/` (the Vite app), `lib/firebas
 
 Nothing in this repo today collects or stores personal data. The spike page processes a clip in the browser and blocks requests that leave its own origin.
 
+## Working on this repo
+
+Work happens on branches; `main` changes only by merge. A tracked hook in `.githooks/pre-commit` refuses commits made directly on `main` or `master`. Git does not run tracked hooks on its own, so activate it once in every clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Repo conventions for AI-assisted work live in [CLAUDE.md](CLAUDE.md).
+
 ## License
 
 The repo has no LICENSE file, so no open-source license is granted.
