@@ -14,7 +14,7 @@
   <p class="lead">Checks whether a 120 or 240 fps clip reaches this page with every frame, and how fast this phone can decode it and find a pose in each frame.</p>
   <p class="privacy"><strong>Nothing leaves this phone.</strong> The clip is read inside this page and is never uploaded. No analytics, no cookies. The page keeps its results and a run counter in this browser only, so a crash or reload doesn't lose them.</p>
 
-  <section aria-labelledby="h-setup">
+  <section aria-labelledby="h-setup" id="settings">
     <h2 id="h-setup">1. Tell the page about the clip</h2>
     <fieldset>
       <legend>What did you record?</legend>
@@ -28,17 +28,36 @@
       <label class="choice"><input type="radio" name="source" value="Files"> Files</label>
       <label class="choice"><input type="radio" name="source" value="Other"> Somewhere else</label>
     </fieldset>
-    <label class="choice"><input type="checkbox" id="do-rvfc" checked> Also run the playback check (plays the clip at quarter speed, so it takes about 4 times the clip's length)</label>
+    <label class="choice"><input type="checkbox" id="trimmed"> I trimmed this clip in Photos (to the slow part)</label>
+    <div class="field">
+      <label for="real-sec">About how many seconds did you film? (optional)</label>
+      <input type="number" id="real-sec" inputmode="decimal" min="0" step="0.1" placeholder="for example 13">
+      <p class="note">Real time, not the slowed-down length. It helps check the capture rate when the file's own timing was changed. Picking the same clip from Files works better.</p>
+    </div>
+    <div class="field">
+      <label for="max-sec">How much of the clip gets pose and the playback check?</label>
+      <select id="max-sec">
+        <option value="5">First 5 seconds</option>
+        <option value="10" selected>First 10 seconds</option>
+        <option value="20">First 20 seconds</option>
+        <option value="30">First 30 seconds</option>
+        <option value="all">The whole clip (slow on long clips)</option>
+      </select>
+      <p class="note">Seconds of the file as it plays. Decode and the frame check always cover the whole clip; they read it in small pieces, so a long clip doesn't fill memory.</p>
+    </div>
+    <label class="choice"><input type="checkbox" id="do-frames" checked> Frame check: look for repeated frames</label>
+    <label class="choice"><input type="checkbox" id="do-pose" checked> Pose check (downloads a 9 MB model once)</label>
+    <label class="choice"><input type="checkbox" id="do-rvfc" checked> Playback check (plays the part above at quarter speed)</label>
   </section>
 
   <section aria-labelledby="h-pick">
     <h2 id="h-pick">2. Pick the clip</h2>
-    <p class="note">Try each clip twice: first from <strong>Photos</strong>, then from <strong>Files</strong>. To put a clip in Files: open it in Photos, tap Share, then Save to Files. Set "Where are you picking it from?" above before each pick.</p>
+    <p class="note">Try each clip from <strong>Photos</strong> and then from <strong>Files</strong>. To put a clip in Files: open it in Photos, tap Share, then Save to Files. Set "Where are you picking it from?" above before each pick.</p>
     <div class="pickers">
       <input class="visually-hidden" type="file" id="pick-video" accept="video/*">
-      <label class="btn primary" for="pick-video">Choose a video</label>
+      <label class="btn primary" for="pick-video" id="label-video">Choose a video</label>
       <input class="visually-hidden" type="file" id="pick-any">
-      <label class="btn" for="pick-any">Choose any file (no video filter)</label>
+      <label class="btn" for="pick-any" id="label-any">Choose any file (no video filter)</label>
     </div>
     <p class="note">The second button skips the "video" filter. On iPhone it may open a different menu; if the first button's results fail, try it from Files too.</p>
   </section>
@@ -47,20 +66,40 @@
     <h2 id="h-status">3. Progress</h2>
     <p id="status" role="status" aria-live="polite">Waiting for a clip.</p>
     <progress id="bar" max="1" value="0" aria-labelledby="status" hidden></progress>
-    <video id="player" muted playsinline preload="auto" hidden aria-label="The picked clip, playing for the playback check"></video>
+    <button type="button" class="btn" id="stop" hidden>Stop this run</button>
+    <div id="tap-row" class="pickers" hidden>
+      <button type="button" class="btn primary" id="tap-play">Play for the playback check</button>
+      <button type="button" class="btn" id="tap-skip">Skip the playback check</button>
+    </div>
+    <video id="player" muted playsinline webkit-playsinline preload="auto" hidden aria-label="The picked clip, playing for the playback check"></video>
   </section>
 
   <section aria-labelledby="h-results">
     <h2 id="h-results">4. Results</h2>
+    <p class="note">Newest run first. Tap a run to open or close it; every line is selectable.</p>
+    <p id="empty" class="note">No runs yet.</p>
     <div id="checks"></div>
     <div class="pickers">
       <button type="button" class="btn primary" id="copy">Copy results</button>
+      <button type="button" class="btn" id="show-all" aria-expanded="false" aria-controls="all-panel">Show all results as text</button>
       <button type="button" class="btn" id="clear">Clear results</button>
     </div>
+    <div id="clear-confirm" class="confirm" hidden>
+      <p id="clear-q"></p>
+      <div class="pickers">
+        <button type="button" class="btn danger" id="clear-yes">Yes, clear them</button>
+        <button type="button" class="btn" id="clear-no">Cancel</button>
+      </div>
+    </div>
     <p id="copy-status" role="status" aria-live="polite"></p>
-    <p class="note">Paste the copied text into the chat with Claude. It is the same text shown below.</p>
-    <label for="out" class="out-label">Results text</label>
-    <textarea id="out" readonly rows="18" spellcheck="false"></textarea>
+    <div id="all-panel" hidden>
+      <label for="out" class="out-label">All results as text (the same text Copy results copies)</label>
+      <textarea id="out" readonly rows="24" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+      <div class="pickers">
+        <button type="button" class="btn" id="select-all">Select all</button>
+        <button type="button" class="btn primary" id="copy-all-2">Copy</button>
+      </div>
+    </div>
   </section>
 </main>
 <script type="module" src="app.js"></script>
