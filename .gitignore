@@ -66,8 +66,11 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# dotenv environment variables files: never commit secrets. .env.example is the one
+# tracked template (shared UI/UX/DX, Env vars rule).
 .env
+.env*
+!.env.example
 
 # dataconnect generated files
 .dataconnect
@@ -81,3 +84,14 @@ plans/
 # Local env files and the Vercel CLI link
 .env*.local
 .vercel
+
+# Next.js build output and generated types
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Playwright output
+test-results/
+playwright-report/
+blob-report/

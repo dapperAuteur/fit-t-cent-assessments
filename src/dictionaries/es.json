@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "title": "Fit T. Cent Assessments",
+    "description": "Evaluaciones de movimiento con la cámara del teléfono. La estimación de la postura se hace en tu navegador y tu video se queda en tu dispositivo."
+  },
+  "common": {
+    "brand": "Fit T. Cent Assessments",
+    "skipToContent": "Saltar al contenido",
+    "mainNav": "Principal",
+    "signIn": "Iniciar sesión",
+    "languageSwitchLabel": "Idioma",
+    "languageNames": {
+      "en": "English",
+      "es": "Español"
+    },
+    "backHome": "Volver al inicio",
+    "loading": "Cargando"
+  },
+  "home": {
+    "eyebrow": "App de portafolio, en desarrollo",
+    "title": "Evaluaciones de movimiento con la cámara del teléfono",
+    "lead": "Fit T. Cent Assessments mide cómo te mueves a partir de un video grabado con tu teléfono. La estimación de la postura se hace en tu navegador y tu video se queda en tu dispositivo.",
+    "firstTitle": "Primero: el paso de valla en atletismo",
+    "firstBody": "Graba de lado un video en cámara lenta de un paso de valla. La app encuentra el despegue y la caída, y luego muestra tiempos y ángulos del cuerpo que puedes revisar cuadro por cuadro.",
+    "laterTitle": "Más adelante",
+    "later": [
+      "Evaluación de sentadilla con brazos arriba (basada en el protocolo de NASM)",
+      "Evaluación de sentadilla a una pierna (basada en el protocolo de NASM)",
+      "Evaluaciones de empuje y tracción (basadas en el protocolo de NASM)",
+      "Prueba Hurdle Step (criterios publicados)"
+    ],
+    "privacyTitle": "Tu video se queda contigo",
+    "privacyBody": "El video se decodifica y se analiza en tu teléfono o tu computadora. Los resultados guardados contienen números y, si lo permites, puntos de referencia del cuerpo. Nunca el video.",
+    "notesTitle": "Para tener en cuenta",
+    "notes": [
+      "Las alertas son sugerencias de evaluación que un entrenador confirma. No son consejo médico.",
+      "Por ahora, solo para adultos (18 años o más).",
+      "Todavía no hay nada para probar. La primera evaluación se está construyendo ahora."
+    ]
+  },
+  "signIn": {
+    "title": "Iniciar sesión",
+    "body": "Iniciar sesión con WitUS todavía no está activado. Cuando lo esté, podrás guardar tus resultados al iniciar sesión. Para hacer un análisis no necesitarás una cuenta."
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "body": "Esa página no existe."
+  },
+  "error": {
+    "title": "Algo salió mal",
+    "body": "Esta página no se cargó.",
+    "retry": "Intentar de nuevo"
+  },
+  "footer": {
+    "tagline": "Evaluaciones de movimiento con la cámara del teléfono",
+    "notAffiliated": "No está afiliado a NASM ni a Functional Movement Systems, ni cuenta con su respaldo.",
+    "ecosystem": "Ecosistema",
+    "thisApp": "Fit T. Cent Assessments",
+    "home": "Inicio",
+    "signIn": "Iniciar sesión",
+    "partnersLegal": "Aliados y aspectos legales",
+    "riseWellness": "Rise Wellness",
+    "riseWellnessSubtitle": "Aliado de salud mental",
+    "terms": "Términos",
+    "privacy": "Privacidad",
+    "contact": "Contacto",
+    "opensInNewTab": "(se abre en una pestaña nueva)",
+    "riseWellnessNewTab": "(aliado de salud mental, se abre en una pestaña nueva)",
+    "copyright": "B4C LLC. Una marca de {brand}."
+  }
+}

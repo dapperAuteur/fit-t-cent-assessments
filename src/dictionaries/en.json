@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "title": "Fit T. Cent Assessments",
+    "description": "Movement assessments from a phone camera. Pose estimation runs in your browser, and your video stays on your device."
+  },
+  "common": {
+    "brand": "Fit T. Cent Assessments",
+    "skipToContent": "Skip to content",
+    "mainNav": "Main",
+    "signIn": "Sign in",
+    "languageSwitchLabel": "Language",
+    "languageNames": {
+      "en": "English",
+      "es": "Español"
+    },
+    "backHome": "Back to home",
+    "loading": "Loading"
+  },
+  "home": {
+    "eyebrow": "Portfolio app, in progress",
+    "title": "Movement assessments from a phone camera",
+    "lead": "Fit T. Cent Assessments measures how you move from a video recorded on your phone. Pose estimation runs in your browser, and your video stays on your device.",
+    "firstTitle": "First up: track hurdle clearance",
+    "firstBody": "Record a side-on slow-motion clip of a hurdle clearance. The app finds takeoff and touchdown, then shows timing and body angles you can check frame by frame.",
+    "laterTitle": "Coming later",
+    "later": [
+      "Overhead squat assessment (based on NASM's protocol)",
+      "Single-leg squat assessment (based on NASM's protocol)",
+      "Pushing and pulling assessments (based on NASM's protocol)",
+      "Hurdle step screen (published criteria)"
+    ],
+    "privacyTitle": "Your video stays with you",
+    "privacyBody": "Video is decoded and analyzed on your phone or laptop. Saved results hold numbers and, if you allow it, body landmarks. Never the video.",
+    "notesTitle": "Good to know",
+    "notes": [
+      "Flags are screening suggestions for a coach to confirm. They are not medical advice.",
+      "For adults (18 and over) for now.",
+      "Nothing to try yet. The first assessment is being built now."
+    ]
+  },
+  "signIn": {
+    "title": "Sign in",
+    "body": "Sign in with WitUS is not switched on yet. When it is, signing in lets you save results. Running an analysis will not need an account."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "That page does not exist."
+  },
+  "error": {
+    "title": "Something went wrong",
+    "body": "This page did not load.",
+    "retry": "Try again"
+  },
+  "footer": {
+    "tagline": "Movement assessments from a phone camera",
+    "notAffiliated": "Not affiliated with or endorsed by NASM or Functional Movement Systems.",
+    "ecosystem": "Ecosystem",
+    "thisApp": "Fit T. Cent Assessments",
+    "home": "Home",
+    "signIn": "Sign in",
+    "partnersLegal": "Partners & Legal",
+    "riseWellness": "Rise Wellness",
+    "riseWellnessSubtitle": "Mental-health partner",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "contact": "Contact",
+    "opensInNewTab": "(opens in new tab)",
+    "riseWellnessNewTab": "(mental-health partner, opens in new tab)",
+    "copyright": "B4C LLC. An {brand} brand."
+  }
+}

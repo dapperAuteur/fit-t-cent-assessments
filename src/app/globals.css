@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/*
+ * Tailwind utilities only (shared UI/UX/DX rule 3). This file holds the import and the few
+ * document-level rules utilities cannot express.
+ */
+
+:root {
+  color-scheme: light dark;
+}
+
+/* Tailwind v4 preflight leaves buttons with the default cursor; interactive means pointer. */
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
