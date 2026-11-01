@@ -37,12 +37,21 @@ release covers a public repo (operator task 08).
 - Never "NASM assessment", "FMS score", a 21-point total, "AI coach", "injury risk", or "accurate to X degrees".
 - Flags are screening suggestions a coach confirms. No medical or diagnostic language.
 
-## Stack (decided 2026-11-01; app scaffold not on `main` yet)
+## Stack (decided 2026-11-01; scaffold landed in phase 1a, `feat/scaffold-next`)
 
-- Next.js App Router on Vercel, TypeScript strict, pnpm, Tailwind v4, ESLint, Vitest, Playwright with axe.
-- Better Auth with the `genericOAuth` provider `witus` (Sign in with WitUS), callback
+- Next.js 16.4 App Router on Vercel at the **repo root**, TypeScript strict, pnpm, Tailwind v4, ESLint, Vitest,
+  Playwright with axe (pinned to 1.61.1: 1.62 has no browsers for macOS 13).
+- Every page lives under `src/app/[lang]` (`en`, `es`); `src/proxy.ts` redirects locale-less paths. Strings
+  live in `src/dictionaries/{en,es}.json` via `getDictionary(lang)`; no string literals in components.
+  Claude drafts Spanish; a fluent reviewer checks it before each release (BAM, 2026-11-01).
+- Security headers and both CSPs are built in `src/lib/security-headers.ts` and wired in `next.config.ts`:
+  `connect-src 'self'` on every page, plus `blob: data:` and `worker-src 'self' blob:` on
+  `/[lang]/assess/*`. PostHog mounts only in `src/app/[lang]/(marketing)/layout.tsx`.
+- Checks: `pnpm check` (typecheck, lint incl. `scripts/check-copy.mjs`, unit tests), `pnpm build`,
+  `pnpm test:e2e` (builds, then runs smoke, axe, 320 px and header checks). CI runs all of them.
+- Better Auth (phase 1b) with the `genericOAuth` provider `witus` (Sign in with WitUS), callback
   `/api/auth/oauth2/callback/witus`; dev uses PGlite and a console magic link (vogoat pattern).
-- Neon Postgres with Drizzle. Post-deploy migrations run from `.github/workflows/migrate-production.yml`.
+- Neon Postgres with Drizzle (phase 1b). Post-deploy migrations run from `.github/workflows/migrate-production.yml`.
 - Analysis pages are client-only. Decode and pose run in one module Web Worker with a pinned, self-hosted,
   telemetry-patched `@mediapipe/tasks-vision`; analysis routes send `connect-src 'self' blob: data:`.
 - **Video never leaves the device by default.** The server stores small JSON and, if allowed, quantized
@@ -52,8 +61,12 @@ release covers a public repo (operator task 08).
 
 ## What is on `main` today
 
+- The Next.js app (once `feat/scaffold-next` merges): header with Sign in, footer, landing and sign-in
+  placeholders in English and Spanish. No auth, pose or database yet (phases 1b to 6).
+- `docs/01-operations.md`: deploy settings, env vars, and the post-deploy runbook (empty until 1b).
 - `docs/research/`: UI/UX/DX research, stack SWOT, pose benchmark harness.
-- `spike/`: static slow-motion frame test page; retired (tagged, then removed) once `/lab` covers it.
+- `spike/`: static slow-motion frame test page, deployed by its own Vercel project (Root Directory `spike/`);
+  excluded from the app's lint, typecheck and tests. Retired (tagged, then removed) once `/lab` covers it.
 - The old Vite + Firebase prototype is at the git tag `legacy/vite-squat-prototype`, not on `main`.
 
 ## Commit guard

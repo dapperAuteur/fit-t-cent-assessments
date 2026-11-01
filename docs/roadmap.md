@@ -6,11 +6,12 @@ updated: 2026-11-01
 ---
 
 ## Live now
-- Nothing in production. The old Vite and Firebase overhead squat prototype was retired from `main` on 2026-11-01; its code is kept at the git tag `legacy/vite-squat-prototype`
+- Nothing in production yet. The old Vite and Firebase overhead squat prototype was retired from `main` on 2026-11-01; its code is kept at the git tag `legacy/vite-squat-prototype`
 - Slow-motion frame test page (`spike/`), used to prove that 240 fps iPhone clips reach the browser with every slow-section frame
 
 ## In progress
-- Phase 0 onboarding: ignore private plans, retire the prototype, CLAUDE.md and the commit guard, WitUS registry entries
+- Phase 1a, built and waiting on merge and a green Vercel build: the Next.js app shell with the header Sign in link, footer, and landing and sign-in placeholders in English and Spanish, security headers, CI, and accessibility and layout tests
+- Phase 1b: Sign in with WitUS, the database, and the first migration with its post-deploy workflow
 - Release 1 (MVP): track hurdle clearance from a side-on slow-motion clip, Sign in with WitUS, saved results without video, stick-figure replay, export, landing and method pages
 
 ## Next
