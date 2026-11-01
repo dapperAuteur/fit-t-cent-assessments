@@ -15,7 +15,7 @@ Project, Settings, Build and Deployment):
 | Install Command | default (`pnpm install`, from `pnpm-lock.yaml` and `packageManager`) | |
 | Build Command | default (`next build`, through `pnpm build`) | |
 | Output Directory | default | |
-| Node.js Version | 24.x | Matches CI (`.github/workflows/ci.yml`). |
+| Node.js Version | 22.x | Matches CI (`.github/workflows/ci.yml`), the dev machine, and user task 05. |
 | Production Branch | `main` | |
 | Domain | `assessments.witus.online` | BAM, 2026-11-01. Set up in user task 05. |
 
