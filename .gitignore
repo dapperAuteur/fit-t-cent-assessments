@@ -73,3 +73,11 @@ typings/
 .dataconnect
 
 .DS_Store
+
+# Private planning notes (WitUS plans convention). This repo is PUBLIC:
+# plans/ holds BAM's local working files and must never be committed.
+plans/
+
+# Local env files and the Vercel CLI link
+.env*.local
+.vercel
