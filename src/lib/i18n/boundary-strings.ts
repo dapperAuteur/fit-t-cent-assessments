@@ -3,13 +3,13 @@ import es from "@/dictionaries/es.json";
 import { DEFAULT_LOCALE, hasLocale, type Locale } from "./locales";
 
 /**
- * Strings for the route-state files (not-found, error, loading). Next passes those files no
+ * Strings for the route-state files (not-found, error). Next passes those files no
  * `params`, so they read the locale with useParams() on the client and pick from this small map
  * instead of the server-only getDictionary().
  */
 const STRINGS = {
-  en: { notFound: en.notFound, error: en.error, loading: en.common.loading, backHome: en.common.backHome },
-  es: { notFound: es.notFound, error: es.error, loading: es.common.loading, backHome: es.common.backHome },
+  en: { notFound: en.notFound, error: en.error, backHome: en.common.backHome },
+  es: { notFound: es.notFound, error: es.error, backHome: es.common.backHome },
 } satisfies Record<Locale, unknown>;
 
 export function boundaryStrings(lang: string | string[] | undefined) {
