@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>Slow-Motion Frame Test</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>Slow-motion frame test</h1>
+  <p class="lead">Checks whether a 120 or 240 fps clip reaches this page with every frame, and how fast this phone can decode it and find a pose in each frame.</p>
+  <p class="privacy"><strong>Nothing leaves this phone.</strong> The clip is read inside this page and is never uploaded. No analytics, no cookies. The page keeps its results and a run counter in this browser only, so a crash or reload doesn't lose them.</p>
+
+  <section aria-labelledby="h-setup">
+    <h2 id="h-setup">1. Tell the page about the clip</h2>
+    <fieldset>
+      <legend>What did you record?</legend>
+      <label class="choice"><input type="radio" name="recorded" value="240" checked> 240 fps slow motion</label>
+      <label class="choice"><input type="radio" name="recorded" value="120"> 120 fps slow motion</label>
+      <label class="choice"><input type="radio" name="recorded" value="other"> Something else</label>
+    </fieldset>
+    <fieldset>
+      <legend>Where are you picking it from?</legend>
+      <label class="choice"><input type="radio" name="source" value="Photos" checked> Photos</label>
+      <label class="choice"><input type="radio" name="source" value="Files"> Files</label>
+      <label class="choice"><input type="radio" name="source" value="Other"> Somewhere else</label>
+    </fieldset>
+    <label class="choice"><input type="checkbox" id="do-rvfc" checked> Also run the playback check (plays the clip at quarter speed, so it takes about 4 times the clip's length)</label>
+  </section>
+
+  <section aria-labelledby="h-pick">
+    <h2 id="h-pick">2. Pick the clip</h2>
+    <p class="note">Try each clip twice: first from <strong>Photos</strong>, then from <strong>Files</strong>. To put a clip in Files: open it in Photos, tap Share, then Save to Files. Set "Where are you picking it from?" above before each pick.</p>
+    <div class="pickers">
+      <input class="visually-hidden" type="file" id="pick-video" accept="video/*">
+      <label class="btn primary" for="pick-video">Choose a video</label>
+      <input class="visually-hidden" type="file" id="pick-any">
+      <label class="btn" for="pick-any">Choose any file (no video filter)</label>
+    </div>
+    <p class="note">The second button skips the "video" filter. On iPhone it may open a different menu; if the first button's results fail, try it from Files too.</p>
+  </section>
+
+  <section aria-labelledby="h-status">
+    <h2 id="h-status">3. Progress</h2>
+    <p id="status" role="status" aria-live="polite">Waiting for a clip.</p>
+    <progress id="bar" max="1" value="0" aria-labelledby="status" hidden></progress>
+    <video id="player" muted playsinline preload="auto" hidden aria-label="The picked clip, playing for the playback check"></video>
+  </section>
+
+  <section aria-labelledby="h-results">
+    <h2 id="h-results">4. Results</h2>
+    <div id="checks"></div>
+    <div class="pickers">
+      <button type="button" class="btn primary" id="copy">Copy results</button>
+      <button type="button" class="btn" id="clear">Clear results</button>
+    </div>
+    <p id="copy-status" role="status" aria-live="polite"></p>
+    <p class="note">Paste the copied text into the chat with Claude. It is the same text shown below.</p>
+    <label for="out" class="out-label">Results text</label>
+    <textarea id="out" readonly rows="18" spellcheck="false"></textarea>
+  </section>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "fps-spike-dev",
+  "private": true,
+  "type": "module",
+  "description": "Local test tooling for the spike page. Not deployed (see ../.vercelignore).",
+  "dependencies": { "playwright-core": "1.64.1" }
+}
