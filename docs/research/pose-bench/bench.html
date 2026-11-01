@@ -1,0 +1,65 @@
+<!doctype html><meta charset="utf-8"><title>bench</title>
+<script src="/node_modules/mp4box/dist/mp4box.all.js"></script>
+<script type="module">
+import { FilesetResolver, PoseLandmarker } from '/node_modules/@mediapipe/tasks-vision/vision_bundle.mjs';
+import { MP, demux, decodeAll, makeLandmarker, stats } from '/common.js';
+const log = (o) => { console.log('RESULT ' + JSON.stringify(o)); };
+window.run = async (cfg) => {
+  const out = [];
+  const tWasm = performance.now();
+  const vision = await FilesetResolver.forVisionTasks(`${MP}/wasm`);
+  out.push({ test: 'fileset', ms: +(performance.now() - tWasm).toFixed(0) });
+  const img = await createImageBitmap(await (await fetch('/pose.jpg')).blob(), { resizeWidth: 1920, resizeHeight: 1080 });
+  // T1+T2: load time and per-frame latency on a 1920x1080 still
+  for (const delegate of cfg.delegates) for (const model of cfg.models) {
+    const canvas = delegate === 'GPU' ? document.createElement('canvas') : undefined;
+    let t = performance.now(); const pl = await makeLandmarker(vision, PoseLandmarker, model, delegate, canvas); const load = performance.now() - t;
+    let ts = 0, found = 0; const lat = [];
+    for (let i = 0; i < cfg.warm + cfg.iters; i++) { t = performance.now(); const r = pl.detectForVideo(img, ts += 4); const d = performance.now() - t; if (i >= cfg.warm) { lat.push(d); found += r.landmarks.length ? 1 : 0; } }
+    out.push({ test: 'still1080', model, delegate, loadMs: +load.toFixed(0), ...stats(lat), detected: `${found}/${cfg.iters}` });
+    pl.close();
+  }
+  // T3: decode only
+  const clip = await demux(cfg.file || cfg.clip);
+  out.push({ test: 'container', codec: clip.config.codec, size: `${clip.config.codedWidth}x${clip.config.codedHeight}`, frames: clip.samples.length, fps: clip.fps });
+  let t = performance.now(); let n = await decodeAll(clip, async () => {}); 
+  out.push({ test: 'decodeOnly', clip: cfg.clip, frames: n, mb: +(clip.bytes / 1e6).toFixed(1), totalMs: +(performance.now() - t).toFixed(0), msPerFrame: +((performance.now() - t) / n).toFixed(2) });
+  // T4: decode + pose on main thread
+  for (const [model, delegate, scale] of cfg.pipelines) {
+    const canvas = delegate === 'GPU' ? document.createElement('canvas') : undefined;
+    const pl = await makeLandmarker(vision, PoseLandmarker, model, delegate, canvas);
+    let found = 0; const per = [];
+    t = performance.now();
+    n = await decodeAll(clip, async (f) => {
+      const t0 = performance.now();
+      let src = f, bmp;
+      if (scale) { bmp = await createImageBitmap(f, { resizeWidth: scale[0], resizeHeight: scale[1] }); src = bmp; }
+      const r = pl.detectForVideo(src, f.timestamp / 1000);
+      bmp && bmp.close(); per.push(performance.now() - t0); found += r.landmarks.length ? 1 : 0;
+    });
+    const total = performance.now() - t;
+    out.push({ test: 'decode+pose(main)', model, delegate, input: scale ? scale.join('x') : 'VideoFrame 1920x1080', frames: n, detected: found, totalMs: +total.toFixed(0), effFps: +(n / total * 1000).toFixed(1), perFrame: stats(per) });
+    pl.close();
+  }
+  // T5: same in a module worker (demux on main, samples transferred)
+  if (cfg.worker) for (const [model, delegate] of cfg.worker) {
+    const w = new Worker('/worker.js', { type: 'module' });
+    const res = await new Promise((resolve) => { w.onmessage = (e) => resolve(e.data); w.onerror = (e) => resolve({ error: e.message }); w.postMessage({ config: clip.config, samples: clip.samples.map(s => ({ is_sync: s.is_sync, cts: s.cts, duration: s.duration, timescale: s.timescale, data: s.data })), model, delegate }); });
+    out.push({ test: 'decode+pose(worker)', model, delegate, ...res }); w.terminate();
+  }
+  out.forEach(log); return out;
+};
+window.ready = true;
+// Phone spike: open bench.html?spike, pick a slow-motion clip, results print below.
+if (location.search.includes('spike')) {
+  const input = Object.assign(document.createElement('input'), { type: 'file', accept: 'video/*' });
+  const pre = document.createElement('pre'); document.body.append(input, pre);
+  input.onchange = async () => {
+    pre.textContent = 'running...';
+    try {
+      const res = await window.run({ delegates: [], models: [], warm: 0, iters: 0, file: input.files[0], pipelines: [['lite', 'GPU', null], ['full', 'GPU', null], ['lite', 'CPU', null]], worker: [['full', 'GPU']] });
+      pre.textContent = res.map((r) => JSON.stringify(r)).join('\n');
+    } catch (e) { pre.textContent = String(e && e.stack || e); }
+  };
+}
+</script>

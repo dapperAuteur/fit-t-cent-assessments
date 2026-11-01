@@ -1,0 +1,17 @@
+{"test":"fileset","ms":1}
+{"test":"still1080","model":"lite","delegate":"CPU","loadMs":852,"n":50,"median":97.1,"p95":110.5,"mean":97.5,"detected":"50/50"}
+{"test":"still1080","model":"full","delegate":"CPU","loadMs":636,"n":50,"median":118.1,"p95":149.4,"mean":120.6,"detected":"50/50"}
+{"test":"still1080","model":"heavy","delegate":"CPU","loadMs":730,"n":50,"median":395.3,"p95":531.1,"mean":402.8,"detected":"50/50"}
+{"test":"still1080","model":"lite","delegate":"GPU","loadMs":453,"n":50,"median":33.4,"p95":34.3,"mean":33.2,"detected":"50/50"}
+{"test":"still1080","model":"full","delegate":"GPU","loadMs":591,"n":50,"median":34,"p95":41.7,"mean":34.9,"detected":"50/50"}
+{"test":"still1080","model":"heavy","delegate":"GPU","loadMs":780,"n":50,"median":49.7,"p95":51.2,"mean":49.3,"detected":"50/50"}
+{"test":"decodeOnly","clip":"/clip240.mp4","frames":1200,"mb":1.3,"totalMs":3688,"msPerFrame":3.07}
+{"test":"decode+pose(main)","model":"lite","delegate":"CPU","input":"VideoFrame 1920x1080","frames":1200,"detected":1200,"totalMs":95652,"effFps":12.5,"perFrame":{"n":1200,"median":77.2,"p95":93,"mean":79.4}}
+{"test":"decode+pose(main)","model":"lite","delegate":"GPU","input":"VideoFrame 1920x1080","frames":1200,"detected":1200,"totalMs":23244,"effFps":51.6,"perFrame":{"n":1200,"median":17.9,"p95":22.9,"mean":19.1}}
+{"test":"decode+pose(main)","model":"full","delegate":"GPU","input":"VideoFrame 1920x1080","frames":1200,"detected":1200,"totalMs":26138,"effFps":45.9,"perFrame":{"n":1200,"median":20.5,"p95":24,"mean":21.5}}
+{"test":"decode+pose(main)","model":"heavy","delegate":"GPU","input":"VideoFrame 1920x1080","frames":1200,"detected":1200,"totalMs":42634,"effFps":28.1,"perFrame":{"n":1200,"median":33.4,"p95":38.2,"mean":35.3}}
+{"test":"decode+pose(main)","model":"lite","delegate":"CPU","input":"640x360","frames":1200,"detected":1200,"totalMs":88411,"effFps":13.6,"perFrame":{"n":1200,"median":68.9,"p95":90.4,"mean":73.3}}
+{"test":"decode+pose(main)","model":"full","delegate":"CPU","input":"VideoFrame 1920x1080","frames":1200,"detected":1200,"totalMs":135726,"effFps":8.8,"perFrame":{"n":1200,"median":109.8,"p95":138,"mean":112.8}}
+{"test":"decode+pose(worker)","model":"lite","delegate":"CPU","frames":1200,"detected":1200,"totalMs":93173,"effFps":12.9,"perFrame":{"n":1200,"median":75.5,"p95":89.5,"mean":77.4}}
+{"test":"decode+pose(worker)","model":"lite","delegate":"GPU","frames":1200,"detected":1200,"totalMs":21997,"effFps":54.6,"perFrame":{"n":1200,"median":16.7,"p95":22.2,"mean":18.1}}
+{"test":"decode+pose(worker)","model":"full","delegate":"GPU","frames":1200,"detected":1200,"totalMs":23266,"effFps":51.6,"perFrame":{"n":1200,"median":17.6,"p95":23,"mean":19.2}}

@@ -1,0 +1,6 @@
+{"test":"fileset","ms":1}
+{"test":"decodeOnly","clip":"/clip240-64m.mp4","frames":1200,"mb":42.2,"totalMs":3128,"msPerFrame":2.61}
+{"test":"decode+pose(main)","model":"lite","delegate":"GPU","input":"VideoFrame 1920x1080","frames":1200,"detected":1200,"totalMs":21444,"effFps":56,"perFrame":{"n":1200,"median":16.4,"p95":19.4,"mean":17.6}}
+{"test":"fileset","ms":1}
+{"test":"decodeOnly","clip":"/clip240-hevc.mp4","frames":1200,"mb":33.1,"totalMs":2999,"msPerFrame":2.5}
+{"test":"decode+pose(main)","model":"lite","delegate":"GPU","input":"VideoFrame 1920x1080","frames":1200,"detected":1200,"totalMs":21001,"effFps":57.1,"perFrame":{"n":1200,"median":16.1,"p95":18.8,"mean":17.3}}
