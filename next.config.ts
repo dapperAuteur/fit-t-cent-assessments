@@ -12,6 +12,11 @@ const isDev = process.env.NODE_ENV !== "production";
 const nextConfig: NextConfig = {
   poweredByHeader: false,
 
+  // Native or wasm-backed server packages stay out of the bundle (the vogoat fix): the Neon
+  // driver's `ws` transport breaks under the minifier, and PGlite (the local database when no
+  // DATABASE_URL is set) loads its wasm from node_modules.
+  serverExternalPackages: ["@neondatabase/serverless", "ws", "@electric-sql/pglite"],
+
   // PostHog's endpoints use trailing slashes; without this Next 308s to the slashless form
   // before the rewrite runs and ingest breaks (PostHog's documented Next.js proxy setup).
   // Side effect: disables the automatic trailing-slash redirect for every route.

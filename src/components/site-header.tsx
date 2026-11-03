@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeaderAuthControl } from "@/components/auth/header-auth-control";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { otherLocale, type Locale } from "@/lib/i18n/locales";
 import { cn, FOCUS_RING } from "@/lib/utils";
@@ -7,8 +8,8 @@ import { cn, FOCUS_RING } from "@/lib/utils";
  * The one header on every page. The Sign in control is required by the shared UI/UX/DX rule
  * (accessible name exactly "Sign in" in English, never renamed, guarded by an @smoke e2e test).
  *
- * Phase 1a has no session yet, so the visitor is always signed out and the link always shows.
- * Phase 1b swaps in "Sign out" when a session exists, and keeps "Sign in" while it is loading.
+ * The control itself is HeaderAuthControl: "Sign in" while signed out or while the session is
+ * loading, "Sign out" (this app only) once a session is known.
  */
 export function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary["common"] }) {
   const other = otherLocale(lang);
@@ -33,15 +34,10 @@ export function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary["com
           >
             {dict.languageNames[other]}
           </Link>
-          <Link
-            href={`/${lang}/sign-in`}
-            className={cn(
-              "flex min-h-11 items-center rounded-md border border-emerald-700 px-4 text-emerald-800 hover:bg-emerald-50 dark:border-emerald-300 dark:text-emerald-200 dark:hover:bg-emerald-950",
-              FOCUS_RING,
-            )}
-          >
-            {dict.signIn}
-          </Link>
+          <HeaderAuthControl
+            lang={lang}
+            labels={{ signIn: dict.signIn, signOut: dict.signOut, signingOut: dict.signingOut }}
+          />
         </nav>
       </div>
     </header>

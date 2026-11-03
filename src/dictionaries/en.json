@@ -14,7 +14,9 @@
       "es": "Español"
     },
     "backHome": "Back to home",
-    "loading": "Loading"
+    "loading": "Loading",
+    "signOut": "Sign out",
+    "signingOut": "Signing out"
   },
   "home": {
     "eyebrow": "Portfolio app, in progress",
@@ -40,7 +42,39 @@
   },
   "signIn": {
     "title": "Sign in",
-    "body": "Sign in with WitUS is not switched on yet. When it is, signing in lets you save results. Running an analysis will not need an account."
+    "intro": "Sign in to save your results. Running an analysis never needs an account.",
+    "witusButton": "Sign in with WitUS",
+    "redirecting": "Opening WitUS",
+    "witusHelp": "One WitUS account works across every WitUS app.",
+    "startFailed": "Sign in with WitUS did not start. Try again.",
+    "failed": "Sign in did not finish. Try again.",
+    "devTitle": "Development sign-in",
+    "devNote": "Shown only on a local copy of the app. Nothing is emailed: the link is printed in the server console.",
+    "devEmailLabel": "Email address",
+    "devSubmit": "Email me a sign-in link",
+    "devSending": "Sending",
+    "devSent": "Link created. Open it from the server console to sign in.",
+    "devError": "That did not work. Check the server console.",
+    "notReady": "Sign in with WitUS is not switched on yet. When it is, signing in lets you save results. Running an analysis will not need an account."
+  },
+  "welcome": {
+    "title": "Welcome",
+    "ageTitle": "One question first",
+    "ageLegend": "Are you 18 or older?",
+    "ageHelp": "This demo is for adults for now. The app stores only the time you answer, never your birth date.",
+    "ageYes": "Yes, I am 18 or older",
+    "ageNo": "No, I am under 18",
+    "roleTitle": "How will you use it?",
+    "roleLegend": "Choose one",
+    "roles": {
+      "athlete": "Athlete: I analyze my own clips",
+      "coach": "Coach: I analyze clips of adult athletes I coach",
+      "both": "Both"
+    },
+    "roleSubmit": "Continue",
+    "roleError": "Choose one to continue.",
+    "adultsOnlyTitle": "For adults for now",
+    "adultsOnlyBody": "This demo is for adults for now. You are signed out of this app, and the account it made for you is deleted. Your WitUS account is unchanged."
   },
   "notFound": {
     "title": "Page not found",

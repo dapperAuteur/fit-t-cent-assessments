@@ -91,6 +91,9 @@ out/
 next-env.d.ts
 *.tsbuildinfo
 
+# Local embedded database (PGlite) and the development sign-in link file
+.data/
+
 # Playwright output
 test-results/
 playwright-report/

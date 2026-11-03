@@ -1,9 +1,10 @@
 import { z } from "zod";
 
 /**
- * Environment, validated once. Phase 1a needs no variable to build or run: everything here is
- * optional, so `next build` passes in CI and on a fresh Vercel project with nothing set.
- * Phase 1b adds the auth and database variables (see .env.example).
+ * Environment, validated once. Nothing here is required to build or run: `next build` passes in CI
+ * and on a fresh Vercel project with nothing set. The auth and database settings (phase 1b) are
+ * resolved separately, per call, by the pure functions in ./runtime-env.ts, so that they can be
+ * unit-tested and so that a missing secret fails at first use on Vercel instead of at build time.
  *
  * `NEXT_PUBLIC_` only for values the browser needs (shared UI/UX/DX, DX rules).
  */

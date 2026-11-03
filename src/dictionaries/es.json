@@ -14,7 +14,9 @@
       "es": "Español"
     },
     "backHome": "Volver al inicio",
-    "loading": "Cargando"
+    "loading": "Cargando",
+    "signOut": "Cerrar sesión",
+    "signingOut": "Cerrando sesión"
   },
   "home": {
     "eyebrow": "App de portafolio, en desarrollo",
@@ -40,7 +42,39 @@
   },
   "signIn": {
     "title": "Iniciar sesión",
-    "body": "Iniciar sesión con WitUS todavía no está activado. Cuando lo esté, podrás guardar tus resultados al iniciar sesión. Para hacer un análisis no necesitarás una cuenta."
+    "intro": "Inicia sesión para guardar tus resultados. Para hacer un análisis nunca necesitas una cuenta.",
+    "witusButton": "Iniciar sesión con WitUS",
+    "redirecting": "Abriendo WitUS",
+    "witusHelp": "Una sola cuenta de WitUS sirve en todas las apps de WitUS.",
+    "startFailed": "No se pudo iniciar sesión con WitUS. Inténtalo de nuevo.",
+    "failed": "El inicio de sesión no terminó. Inténtalo de nuevo.",
+    "devTitle": "Inicio de sesión de desarrollo",
+    "devNote": "Solo aparece en una copia local de la app. No se envía ningún correo: el enlace aparece en la consola del servidor.",
+    "devEmailLabel": "Correo electrónico",
+    "devSubmit": "Enviarme un enlace para iniciar sesión",
+    "devSending": "Enviando",
+    "devSent": "Enlace creado. Ábrelo desde la consola del servidor para iniciar sesión.",
+    "devError": "No funcionó. Revisa la consola del servidor.",
+    "notReady": "Iniciar sesión con WitUS todavía no está activado. Cuando lo esté, podrás guardar tus resultados al iniciar sesión. Para hacer un análisis no necesitarás una cuenta."
+  },
+  "welcome": {
+    "title": "Bienvenida",
+    "ageTitle": "Primero, una pregunta",
+    "ageLegend": "¿Tienes 18 años o más?",
+    "ageHelp": "Por ahora esta demo es solo para adultos. La app guarda solo la hora de tu respuesta, nunca tu fecha de nacimiento.",
+    "ageYes": "Sí, tengo 18 años o más",
+    "ageNo": "No, tengo menos de 18",
+    "roleTitle": "¿Cómo la vas a usar?",
+    "roleLegend": "Elige una opción",
+    "roles": {
+      "athlete": "Atleta: analizo mis propios videos",
+      "coach": "Entrenador: analizo videos de atletas adultos que entreno",
+      "both": "Ambos"
+    },
+    "roleSubmit": "Continuar",
+    "roleError": "Elige una opción para continuar.",
+    "adultsOnlyTitle": "Por ahora, solo para adultos",
+    "adultsOnlyBody": "Por ahora esta demo es solo para adultos. Se cerró tu sesión en esta app y se borró la cuenta que creó para ti. Tu cuenta de WitUS no cambió."
   },
   "notFound": {
     "title": "Página no encontrada",
