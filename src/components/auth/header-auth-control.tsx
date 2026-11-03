@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { signOutHere } from "@/lib/sign-out";
 import { cn, FOCUS_RING } from "@/lib/utils";
@@ -16,6 +17,10 @@ const CONTROL =
  * static; the read is a same-origin request to /api/auth/get-session.
  *
  * "Sign out" ends only this app's session (src/lib/sign-out.ts), then a full navigation home.
+ *
+ * The header lives in the layout and survives client-side navigations, so the session is read
+ * again whenever the path changes: a server action can sign the visitor out (the welcome step's
+ * under-18 answer) and redirect without a full page load.
  */
 export function HeaderAuthControl({
   lang,
@@ -24,8 +29,17 @@ export function HeaderAuthControl({
   lang: string;
   labels: { signIn: string; signOut: string; signingOut: string };
 }) {
-  const { data } = authClient.useSession();
+  const pathname = usePathname();
+  const { data, refetch } = authClient.useSession();
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const lastPath = useRef(pathname);
+
+  useEffect(() => {
+    // The first read happens on mount inside useSession; only later path changes re-read.
+    if (lastPath.current === pathname) return;
+    lastPath.current = pathname;
+    void refetch();
+  }, [pathname, refetch]);
 
   if (!data?.user) {
     return (

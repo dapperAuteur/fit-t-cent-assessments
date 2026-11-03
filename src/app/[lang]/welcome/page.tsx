@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { hasLocale } from "@/lib/i18n/locales";
@@ -28,29 +27,10 @@ export default async function WelcomePage({ params, searchParams }: PageProps<"/
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dict = await getDictionary(lang);
-  const { done, error } = await searchParams;
+  const { error } = await searchParams;
   const me = await getSessionUser();
 
-  if (!me) {
-    if (done !== "adults-only") redirect(`/${lang}/sign-in`);
-    return (
-      <div className="mx-auto flex w-full max-w-xl flex-col gap-4 px-4 py-10 sm:px-6 sm:py-16">
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">{dict.welcome.adultsOnlyTitle}</h1>
-        <p role="status" className="text-slate-700 dark:text-slate-300">
-          {dict.welcome.adultsOnlyBody}
-        </p>
-        <Link
-          href={`/${lang}`}
-          className={cn(
-            "inline-flex min-h-11 items-center self-start rounded-md text-emerald-800 underline underline-offset-4 dark:text-emerald-200",
-            FOCUS_RING,
-          )}
-        >
-          {dict.common.backHome}
-        </Link>
-      </div>
-    );
-  }
+  if (!me) redirect(`/${lang}/sign-in`);
 
   const step = welcomeStep(me);
   if (step === "done") redirect(`/${lang}`);

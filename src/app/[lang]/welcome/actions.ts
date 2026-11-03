@@ -45,7 +45,9 @@ export async function answerAge(lang: string, formData: FormData): Promise<void>
     console.error("[welcome] sign-out failed:", error instanceof Error ? error.constructor.name : "unknown");
   }
   await forgetUnconfirmedUser(db, me.id);
-  redirect(`/${locale}/welcome?done=adults-only`);
+  // A different path, not a query on /welcome: the header re-reads the session when the path
+  // changes, and this redirect is a client-side navigation.
+  redirect(`/${locale}/adults-only`);
 }
 
 export async function chooseRole(lang: string, formData: FormData): Promise<void> {
