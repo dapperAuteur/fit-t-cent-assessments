@@ -93,7 +93,9 @@ test.describe("sign-in page", () => {
 
   test("a failed sign-in shows an alert", async ({ page }) => {
     await page.goto("/en/sign-in?error=invalid_code");
-    await expect(page.getByRole("alert")).toHaveText("Sign in did not finish. Try again.");
+    // Scoped by text: the page can hold more than one role="alert" (the development form's own message
+    // slot, Next's route announcer), and an unscoped getByRole("alert") fails strict mode on CI.
+    await expect(page.getByRole("alert").filter({ hasText: "Sign in did not finish. Try again." })).toBeVisible();
   });
 
   test("/welcome sends a signed-out visitor to sign in", async ({ page }) => {
