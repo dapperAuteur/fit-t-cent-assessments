@@ -49,9 +49,16 @@ release covers a public repo (operator task 08).
   `/[lang]/assess/*`. PostHog mounts only in `src/app/[lang]/(marketing)/layout.tsx`.
 - Checks: `pnpm check` (typecheck, lint incl. `scripts/check-copy.mjs`, unit tests), `pnpm build`,
   `pnpm test:e2e` (builds, then runs smoke, axe, 320 px and header checks). CI runs all of them.
-- Better Auth (phase 1b) with the `genericOAuth` provider `witus` (Sign in with WitUS), callback
-  `/api/auth/oauth2/callback/witus`; dev uses PGlite and a console magic link (vogoat pattern).
-- Neon Postgres with Drizzle (phase 1b). Post-deploy migrations run from `.github/workflows/migrate-production.yml`.
+- Better Auth 1.7.14 (pinned; phase 1b) with the `genericOAuth` provider `witus` (Sign in with WitUS), registered
+  only when `WITUS_OIDC_CLIENT_ID` and `WITUS_OIDC_CLIENT_SECRET` both exist; redirect URI pinned to
+  `/api/auth/oauth2/callback/witus` with a 307 shim to Better Auth's core callback; `disableProviderLogout`
+  so Sign out ends only this app's session. Local runs use PGlite and a console magic link (vogoat pattern),
+  never registered on Vercel. Auth and database settings resolve in `src/lib/runtime-env.ts` (pure, tested).
+- Neon Postgres with Drizzle (phase 1b): `DATABASE_URL ?? STORAGE_DATABASE_URL` (the Vercel integration's
+  `STORAGE_` prefix). Schema in `src/db/schema/`, migrations in `drizzle/`, applied after a merge by
+  `.github/workflows/migrate-production.yml` (secret `NEON_DIRECT_URL`); manual fallback in `docs/01-operations.md`.
+- `/welcome` after every sign-in: "Are you 18 or older?" (stores only the time; under 18 signs out and deletes
+  the local user row), then role (athlete, coach, both; admin is never self-chosen).
 - Analysis pages are client-only. Decode and pose run in one module Web Worker with a pinned, self-hosted,
   telemetry-patched `@mediapipe/tasks-vision`; analysis routes send `connect-src 'self' blob: data:`.
 - **Video never leaves the device by default.** The server stores small JSON and, if allowed, quantized
@@ -61,9 +68,10 @@ release covers a public repo (operator task 08).
 
 ## What is on `main` today
 
-- The Next.js app (once `feat/scaffold-next` merges): header with Sign in, footer, landing and sign-in
-  placeholders in English and Spanish. No auth, pose or database yet (phases 1b to 6).
-- `docs/01-operations.md`: deploy settings, env vars, and the post-deploy runbook (empty until 1b).
+- The Next.js app: header with Sign in (Sign out when signed in), footer, landing page in English and
+  Spanish. Once `feat/auth-witus-sso` merges: Sign in with WitUS, `/welcome`, the database and its migrate
+  workflow. No pose analysis or saved results yet (phases 2 to 6).
+- `docs/01-operations.md`: deploy settings, env vars, Sign in with WitUS, and the post-deploy runbook.
 - `docs/research/`: UI/UX/DX research, stack SWOT, pose benchmark harness.
 - `spike/`: static slow-motion frame test page, deployed by its own Vercel project (Root Directory `spike/`);
   excluded from the app's lint, typecheck and tests. Retired (tagged, then removed) once `/lab` covers it.

@@ -2,16 +2,16 @@
 app: fit-t-cent-assessments
 name: Fit T. Cent Assessments
 stage: building
-updated: 2026-11-01
+updated: 2026-11-02
 ---
 
 ## Live now
-- Nothing in production yet. The old Vite and Firebase overhead squat prototype was retired from `main` on 2026-11-01; its code is kept at the git tag `legacy/vite-squat-prototype`
+- Phase 1a app shell (merged; Vercel and CI green on `main` a83f8d3): header Sign in link, footer, landing page in English and Spanish, security headers, accessibility and layout tests
+- The old Vite and Firebase overhead squat prototype was retired from `main` on 2026-11-01; its code is kept at the git tag `legacy/vite-squat-prototype`
 - Slow-motion frame test page (`spike/`), used to prove that 240 fps iPhone clips reach the browser with every slow-section frame
 
 ## In progress
-- Phase 1a, built and waiting on merge and a green Vercel build: the Next.js app shell with the header Sign in link, footer, and landing and sign-in placeholders in English and Spanish, security headers, CI, and accessibility and layout tests
-- Phase 1b: Sign in with WitUS, the database, and the first migration with its post-deploy workflow
+- Phase 1b, built on `feat/auth-witus-sso` and waiting on merge: Sign in with WitUS, the 18-or-older and role step, Sign out for this app only, the database (Neon, PGlite locally), the first migration and its post-deploy workflow (owner task 11)
 - Release 1 (MVP): track hurdle clearance from a side-on slow-motion clip, Sign in with WitUS, saved results without video, stick-figure replay, export, landing and method pages
 
 ## Next
@@ -24,6 +24,6 @@ updated: 2026-11-01
 - A release for athletes under 18, only if the owner approves it (guardian consent and visibility first)
 
 ## Blocked on
-- Vercel project, Neon database and secrets (owner task 05)
-- Sign in with WitUS client secret on both projects (owner task 06)
+- Production sign-in: the `NEON_DIRECT_URL` GitHub secret, `BETTER_AUTH_URL` on Production and `BETTER_AUTH_SECRET` on Preview (owner tasks 05 and 11)
+- Sign in with WitUS client secret on the IdP side (owner task 06)
 - Adult fixture clips of a hurdler at 240 fps (owner task 08)

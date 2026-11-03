@@ -6,17 +6,27 @@ Not affiliated with or endorsed by NASM or Functional Movement Systems.
 
 ## Status
 
-- Stage: building. Phase 1a (the app shell) is in: header with Sign in, footer, landing and sign-in placeholders in English and Spanish, security headers, tests and CI. There is no sign-in, pose analysis or database yet.
+- Stage: building. Phase 1a (the app shell) is in: header with Sign in, footer, landing page in English and Spanish, security headers, tests and CI.
+- Phase 1b adds accounts: Sign in with WitUS (Better Auth), a first-sign-in step that asks "Are you 18 or older?" and a role, Sign out for this app only, and the database (Neon in production, embedded PGlite locally) with its migration workflow. There is no pose analysis or saved result yet.
 - The old browser prototype (Vite, plain JavaScript, Firebase) was retired from `main` on 2026-11-01. Its code is kept at the git tag [`legacy/vite-squat-prototype`](#legacy-prototype).
 - The plan for what comes next lives in [docs/roadmap.md](docs/roadmap.md).
 
 ## Run it locally
 
-Needs Node.js 22 or newer and pnpm 10 (`corepack enable` picks the version pinned in `package.json`). No environment variables are needed.
+Needs Node.js 22 or newer and pnpm 10 (`corepack enable` picks the version pinned in `package.json`). No environment variables are needed: with no database URL the app uses an embedded PGlite database under `.data/pglite` and applies the migrations itself, and with no WitUS client it offers a development sign-in instead.
 
 ```bash
 pnpm install
 pnpm dev            # http://localhost:3070 (redirects to /en or /es)
+```
+
+To sign in locally, open `/en/sign-in`, enter any address under "Development sign-in", and open the link the dev server prints in its console. The development sign-in never exists on Vercel. Sign in with WitUS appears once `WITUS_OIDC_CLIENT_ID` and `WITUS_OIDC_CLIENT_SECRET` are both set.
+
+Database scripts:
+
+```bash
+pnpm db:generate    # after changing src/db/schema: writes a new migration under drizzle/
+pnpm db:migrate     # applies drizzle/ to the Neon database named by DATABASE_URL_UNPOOLED (production runs this from CI)
 ```
 
 Checks, the same ones CI runs:
@@ -29,9 +39,9 @@ pnpm test:e2e       # builds, starts the production server on :3070, runs Playwr
 pnpm test:smoke     # only the @smoke tests
 ```
 
-The Playwright suite checks the header Sign in link, locale redirects, a real 404 status, the footer's not-affiliated line, the security headers and both CSPs, that the landing page makes no request off its own origin, axe in light and dark mode on every page, and no sideways scroll at 320 px. `@playwright/test` is pinned to 1.61.1 because 1.62 has no browser builds for macOS 13.
+The Playwright suite signs in with the development link against a throwaway database and walks the welcome step (adult and under 18) and Sign out; it also checks the header Sign in link, locale redirects, a real 404 status, the footer's not-affiliated line, the security headers and both CSPs, that the landing page makes no request off its own origin, axe in light and dark mode on every page, and no sideways scroll at 320 px. `@playwright/test` is pinned to 1.61.1 because 1.62 has no browser builds for macOS 13.
 
-Optional variables are listed in [.env.example](.env.example); copy it to `.env.local` to set them. Deploy settings and the post-deploy runbook are in [docs/01-operations.md](docs/01-operations.md).
+Optional variables are listed in [.env.example](.env.example); copy it to `.env.local` to set them. Deploy settings, the variables Vercel needs, and the post-deploy runbook (database migrations) are in [docs/01-operations.md](docs/01-operations.md).
 
 ## What is on `main` today
 
@@ -40,12 +50,18 @@ Optional variables are listed in [.env.example](.env.example); copy it to `.env.
 ├── src/
 │   ├── app/[lang]/         Every page, under /en and /es
 │   │   ├── (marketing)/    Landing page; the only place PostHog loads
-│   │   └── sign-in/        Placeholder until Sign in with WitUS (phase 1b)
-│   ├── components/         Site header, footer, Rise Wellness callout
+│   │   ├── sign-in/        Sign in with WitUS (and the development sign-in locally)
+│   │   ├── welcome/        First sign-in: 18 or older, then role
+│   │   └── adults-only/    Where an under-18 answer lands
+│   ├── app/api/auth/       Better Auth, plus the WitUS callback shim
+│   ├── components/         Site header (Sign in / Sign out), footer, auth controls
+│   ├── db/schema/          Drizzle tables (Better Auth's, with role and adult confirmation time)
 │   ├── dictionaries/       en.json and es.json: every user-facing string
-│   ├── lib/                i18n, env, security headers and CSP, analytics
+│   ├── lib/                auth, session, env resolution, welcome step, i18n, security headers, analytics
 │   └── proxy.ts            Sends locale-less paths to /en or /es
-├── tests/e2e/              Playwright: smoke, accessibility, layout
+├── drizzle/                Generated SQL migrations (applied by the migrate workflow)
+├── scripts/migrate.ts      Applies drizzle/ to Neon (CI and the manual fallback)
+├── tests/e2e/              Playwright: sign-in flows, smoke, accessibility, layout
 ├── scripts/check-copy.mjs  Bans dashes, stock words and the banned names in copy
 ├── docs/
 │   ├── 01-operations.md    Vercel settings, env vars, post-deploy runbook
@@ -61,7 +77,8 @@ Optional variables are listed in [.env.example](.env.example); copy it to `.env.
 
 - Next.js 16 App Router on Vercel, TypeScript strict, pnpm, Tailwind CSS v4, ESLint, Vitest, Playwright with axe.
 - English and Spanish from day one, from dictionary files.
-- Coming in later phases: Sign in with WitUS (Better Auth), Neon Postgres with Drizzle, and analysis pages that render on the client only, with decoding and pose in one module Web Worker running a pinned, self-hosted copy of MediaPipe Tasks Vision.
+- Sign in with WitUS through Better Auth (pinned 1.7.14), Neon Postgres with Drizzle (embedded PGlite locally).
+- Coming in later phases: analysis pages that render on the client only, with decoding and pose in one module Web Worker running a pinned, self-hosted copy of MediaPipe Tasks Vision.
 - Video stays on the device. Saved results will hold numbers and, if the user allows it, body landmarks for the analyzed window; never video or frames.
 
 ## Legacy prototype
@@ -80,7 +97,7 @@ Removed from `main` in that change: `frontend-app/` (the Vite app), `lib/firebas
 
 ## Privacy
 
-Nothing in this repo today collects or stores personal data. The app has no accounts or database yet. Its marketing pages can send anonymous page views to PostHog (no cookies, no local storage, no session recording) once a key is set; no other page loads analytics. Every page's Content-Security-Policy limits network requests to the app's own origin. The spike page processes a clip in the browser and blocks requests that leave its own origin.
+Signing in creates an account in this app's database with your name, email address and profile picture link from WitUS, the time you confirmed you are 18 or older (never a birth date), and the role you picked. Answering "No, I am under 18" signs you out and deletes that account row. Sign out ends only this app's session; your WitUS session stays as it is. No analysis results are stored yet. The marketing pages can send anonymous page views to PostHog (no cookies, no local storage, no session recording) once a key is set; no other page loads analytics. Every page's Content-Security-Policy limits network requests to the app's own origin. The spike page processes a clip in the browser and blocks requests that leave its own origin.
 
 ## Working on this repo
 
